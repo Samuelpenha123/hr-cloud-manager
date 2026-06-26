@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Análisis del Problema — HR Cloud Manager</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Times New Roman', serif; background: #f0f0f0; color: #111; font-size: 12pt; line-height: 1.6; }
+
+  @media print {
+    body { background: white; }
+    .no-print { display: none; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; page-break-after: always; }
+    .page:last-child { page-break-after: avoid; }
+  }
+
+  .print-btn {
+    display: block; margin: 16px auto; padding: 10px 28px;
+    background: #4F46E5; color: white; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer; font-family: sans-serif;
+  }
+
+  .page {
+    background: white;
+    width: 21cm;
+    min-height: 29.7cm;
+    margin: 20px auto;
+    padding: 2.5cm 2.8cm;
+    box-shadow: 0 4px 20px rgba(0,0,0,.15);
+    border-radius: 4px;
+  }
+
+  /* ── CARÁTULA ── */
+  .caratula {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 25cm;
+    text-align: center;
+    gap: 18px;
+  }
+  .caratula .uni { font-size: 15pt; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; }
+  .caratula .facultad { font-size: 12pt; }
+  .caratula .carrera { font-size: 11pt; color: #444; }
+  .caratula hr { width: 80%; border: 1px solid #333; margin: 10px 0; }
+  .caratula .titulo-doc { font-size: 14pt; font-weight: bold; text-transform: uppercase; margin: 8px 0; }
+  .caratula .proyecto { font-size: 18pt; font-weight: bold; color: #4F46E5; margin: 6px 0; }
+  .caratula .subtitulo { font-size: 11pt; color: #555; }
+  .caratula .integrantes-titulo { font-size: 12pt; font-weight: bold; margin-top: 20px; }
+  .caratula .integrante { font-size: 11pt; }
+  .caratula .docente-label { font-size: 11pt; font-weight: bold; margin-top: 14px; }
+  .caratula .fecha { font-size: 11pt; color: #555; margin-top: 16px; }
+
+  /* ── CONTENIDO ── */
+  h1 { font-size: 16pt; font-weight: bold; text-align: center; text-transform: uppercase;
+       margin-bottom: 20px; border-bottom: 2px solid #4F46E5; padding-bottom: 8px; color: #4F46E5; }
+  h2 { font-size: 13pt; font-weight: bold; margin: 22px 0 8px; color: #1e293b; }
+  h3 { font-size: 12pt; font-weight: bold; margin: 16px 0 6px; color: #374151; }
+  p  { margin-bottom: 10px; text-align: justify; }
+  ul, ol { margin: 8px 0 10px 24px; }
+  li { margin-bottom: 5px; }
+
+  /* ── ÁRBOL DE PROBLEMAS ── */
+  .tree-container { margin: 20px 0; font-family: sans-serif; }
+  .tree-node {
+    border-radius: 8px;
+    padding: 10px 16px;
+    text-align: center;
+    font-size: 11pt;
+    font-weight: 600;
+  }
+  .problema-central {
+    background: #EF4444;
+    color: white;
+    margin: 0 auto 0;
+    max-width: 480px;
+    font-size: 13pt;
+  }
+  .causas-title, .efectos-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 11pt;
+    margin: 12px 0 8px;
+    color: #6B7280;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: sans-serif;
+  }
+  .causas-grid, .efectos-grid {
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 10px;
+    margin: 6px 0;
+  }
+  .causa  { background: #FEF9C3; color: #92400E; border: 1.5px solid #FCD34D; font-size: 10pt; font-weight: 500; }
+  .efecto { background: #FEE2E2; color: #991B1B; border: 1.5px solid #FCA5A5; font-size: 10pt; font-weight: 500; }
+  .connector { text-align: center; font-size: 20px; margin: 4px 0; color: #6B7280; }
+
+  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 11pt; }
+  th { background: #4F46E5; color: white; padding: 9px 12px; text-align: left; }
+  td { padding: 8px 12px; border-bottom: 1px solid #e5e7eb; }
+  tr:nth-child(even) td { background: #F8FAFC; }
+
+  .cuadro {
+    background: #F0F4FF;
+    border-left: 4px solid #4F46E5;
+    border-radius: 4px;
+    padding: 12px 16px;
+    margin: 12px 0;
+    font-size: 11pt;
+  }
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+
+<!-- ══════════════════════════════════════════ -->
+<!--                  CARÁTULA                 -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page">
+  <div class="caratula">
+    <div class="uni">Universidad [Nombre de la Universidad]</div>
+    <div class="facultad">Facultad de Ciencias y Tecnología</div>
+    <div class="carrera">Carrera de Ingeniería de Sistemas / Informática</div>
+
+    <hr style="width:90%">
+
+    <div class="titulo-doc">Análisis del Problema</div>
+    <div class="proyecto">HR Cloud Manager</div>
+    <div class="subtitulo">Sistema Web de Gestión de Recursos Humanos para PYMEs</div>
+
+    <hr style="width:90%">
+
+    <div class="integrantes-titulo">INTEGRANTES DEL GRUPO:</div>
+    <div class="integrante">• [Nombre Integrante 1]</div>
+    <div class="integrante">• [Nombre Integrante 2]</div>
+    <div class="integrante">• [Nombre Integrante 3]</div>
+    <div class="integrante">• [Nombre Integrante 4]</div>
+
+    <div class="docente-label">DOCENTE:</div>
+    <div class="integrante">[Nombre del Docente]</div>
+
+    <div class="fecha">Gestión 2026</div>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--            ANÁLISIS DEL PROBLEMA          -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page">
+  <h1>Análisis del Problema</h1>
+
+  <h2>1. Identificación del Problema</h2>
+  <p>
+    Las pequeñas y medianas empresas (PYMEs) enfrentan serias dificultades en la gestión de sus
+    recursos humanos debido a la ausencia de herramientas digitales especializadas. La mayoría
+    administra información del personal mediante hojas de cálculo, registros en papel o correos
+    electrónicos, lo que genera desorganización, pérdida de datos y procesos lentos e ineficientes.
+  </p>
+
+  <div class="cuadro">
+    <strong>Problema central identificado:</strong><br>
+    Las PYMEs no cuentan con un sistema centralizado que les permita gestionar de manera
+    eficiente la información de sus empleados, el control de asistencia, las solicitudes de
+    vacaciones y la documentación del personal.
+  </div>
+
+  <h2>2. Árbol de Problemas</h2>
+  <p>A continuación se presenta el árbol de problemas que muestra las causas y efectos del problema central identificado:</p>
+
+  <div class="tree-container">
+    <!-- EFECTOS -->
+    <div class="efectos-title">▲ EFECTOS</div>
+    <div class="efectos-grid">
+      <div class="tree-node efecto">Toma de decisiones lenta e incorrecta por falta de datos actualizados</div>
+      <div class="tree-node efecto">Conflictos laborales por errores en registros de asistencia y vacaciones</div>
+      <div class="tree-node efecto">Pérdida de documentos importantes del personal</div>
+    </div>
+    <div class="efectos-grid" style="grid-template-columns: repeat(2,1fr); margin: 6px 60px;">
+      <div class="tree-node efecto">Incremento de costos operativos por procesos manuales ineficientes</div>
+      <div class="tree-node efecto">Desmotivación del personal ante falta de transparencia en RRHH</div>
+    </div>
+    <div class="connector">▼</div>
+
+    <!-- PROBLEMA CENTRAL -->
+    <div class="tree-node problema-central">
+      ⚠️ Gestión ineficiente de Recursos Humanos en las PYMEs por ausencia de un sistema digitalizado
+    </div>
+    <div class="connector">▼</div>
+
+    <!-- CAUSAS -->
+    <div class="causas-title">▼ CAUSAS</div>
+    <div class="causas-grid">
+      <div class="tree-node causa">Uso de hojas de cálculo y registros en papel para gestionar empleados</div>
+      <div class="tree-node causa">Falta de control automatizado de asistencia y puntualidad</div>
+      <div class="tree-node causa">Procesos manuales para solicitar y aprobar vacaciones</div>
+    </div>
+    <div class="causas-grid" style="grid-template-columns: repeat(2,1fr); margin: 6px 60px;">
+      <div class="tree-node causa">Ausencia de un sistema de roles y permisos para el personal</div>
+      <div class="tree-node causa">No existe un repositorio centralizado de documentos del personal</div>
+    </div>
+  </div>
+
+  <h2>3. Selección del Problema</h2>
+  <p>
+    Tras analizar la situación de las PYMEs en el entorno local, se seleccionó este problema porque:
+  </p>
+  <ul>
+    <li>Afecta a la mayoría de empresas pequeñas que no pueden costear sistemas ERP empresariales costosos.</li>
+    <li>Los procesos manuales generan errores frecuentes, pérdida de tiempo y conflictos internos.</li>
+    <li>Existe una brecha tecnológica real entre grandes empresas (que sí tienen sistemas) y las PYMEs.</li>
+    <li>Una solución web accesible puede impactar positivamente en decenas o cientos de empresas.</li>
+  </ul>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!--           PLANTEAMIENTO Y SOLUCIÓN        -->
+<!-- ══════════════════════════════════════════ -->
+<div class="page">
+  <h1>Planteamiento de la Solución</h1>
+
+  <h2>4. Objetivo General</h2>
+  <p>
+    Desarrollar un sistema web de gestión de recursos humanos (HR Cloud Manager) que permita
+    a las PYMEs administrar de forma digital, centralizada y segura la información de sus empleados,
+    el control de asistencia, las solicitudes de vacaciones y la documentación del personal.
+  </p>
+
+  <h2>5. Objetivos Específicos</h2>
+  <ol>
+    <li>Implementar un módulo de gestión de empleados con registro completo de datos laborales y personales.</li>
+    <li>Desarrollar un sistema de control de asistencia con registro de entrada/salida y cálculo automático de tardanzas.</li>
+    <li>Crear un flujo de solicitud y aprobación de vacaciones con estados (pendiente, aprobado, rechazado).</li>
+    <li>Implementar un repositorio de documentos del personal con control de vencimientos.</li>
+    <li>Diseñar un sistema de roles y permisos (admin, gerente, RRHH, empleado) con acceso diferenciado.</li>
+    <li>Proveer un dashboard con indicadores estadísticos en tiempo real para la toma de decisiones.</li>
+  </ol>
+
+  <h2>6. Alcance del Sistema</h2>
+  <table>
+    <tr><th>Módulo</th><th>Funcionalidades incluidas</th></tr>
+    <tr><td><strong>Autenticación</strong></td><td>Registro de empresa, inicio de sesión, JWT, roles de acceso</td></tr>
+    <tr><td><strong>Empleados</strong></td><td>CRUD completo, búsqueda, filtros, dar acceso al sistema</td></tr>
+    <tr><td><strong>Asistencia</strong></td><td>Registro manual, check-in/out del empleado, reportes mensuales</td></tr>
+    <tr><td><strong>Vacaciones</strong></td><td>Solicitud, aprobación/rechazo, calendario, historial</td></tr>
+    <tr><td><strong>Documentos</strong></td><td>Subida de archivos, tipos, vencimientos, descarga</td></tr>
+    <tr><td><strong>Usuarios</strong></td><td>Gestión de cuentas y roles por el administrador</td></tr>
+    <tr><td><strong>Notificaciones</strong></td><td>Alertas internas de eventos del sistema</td></tr>
+    <tr><td><strong>Dashboard</strong></td><td>Estadísticas en tiempo real, vista personalizada por rol</td></tr>
+  </table>
+
+  <h2>7. Justificación</h2>
+  <p>
+    El sistema se justifica porque resuelve un problema real y frecuente en el contexto de las
+    PYMEs: la falta de digitalización en la gestión del capital humano. Al implementar HR Cloud
+    Manager, las empresas podrán:
+  </p>
+  <ul>
+    <li>Reducir el tiempo destinado a tareas administrativas manuales.</li>
+    <li>Eliminar errores en el registro de asistencia y cálculo de tardanzas.</li>
+    <li>Garantizar transparencia en los procesos de solicitud y aprobación de vacaciones.</li>
+    <li>Mantener un historial digitalizado y seguro de cada empleado.</li>
+    <li>Tomar decisiones basadas en datos actualizados y accesibles en tiempo real.</li>
+  </ul>
+
+  <h2>8. Stack Tecnológico Utilizado</h2>
+  <table>
+    <tr><th>Componente</th><th>Tecnología</th><th>Justificación</th></tr>
+    <tr><td>Backend</td><td>PHP 8.3 + Laravel 11</td><td>Framework robusto, amplia comunidad, arquitectura MVC</td></tr>
+    <tr><td>Autenticación</td><td>JWT (tymon/jwt-auth)</td><td>Stateless, seguro, ideal para APIs REST</td></tr>
+    <tr><td>Base de datos</td><td>MariaDB 10.4</td><td>Open source, compatible con MySQL, alto rendimiento</td></tr>
+    <tr><td>Frontend</td><td>HTML5 + CSS3 + JS Vanilla</td><td>Sin dependencias externas, carga rápida, portable</td></tr>
+    <tr><td>Comunicación</td><td>API REST + fetch()</td><td>Estándar moderno, desacoplamiento frontend/backend</td></tr>
+  </table>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Registro - HR Cloud Manager</title>
+<link rel="stylesheet" href="css/app.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo"><span>☁️</span><span class="brand-name">HR Cloud <span class="brand-accent">Manager</span></span></div>
+    <div class="auth-title"><h1>Crear cuenta gratis</h1><p>Comienza a digitalizar tu gestión de RRHH hoy</p></div>
+    <div id="alertBox" class="alert" style="display:none"></div>
+    <form id="regForm" novalidate>
+      <div class="grid-2">
+        <div class="form-group"><label>Nombre Completo *</label><input type="text" id="name" class="form-control" placeholder="Juan Pérez"><span class="field-error" id="nameErr"></span></div>
+        <div class="form-group"><label>Nombre de Empresa *</label><input type="text" id="company_name" class="form-control" placeholder="Mi Empresa S.A."><span class="field-error" id="companyErr"></span></div>
+      </div>
+      <div class="form-group"><label>Correo Electrónico *</label><input type="email" id="email" class="form-control" placeholder="admin@empresa.com"><span class="field-error" id="emailErr"></span></div>
+      <div class="form-group"><label>Contraseña *</label><input type="password" id="password" class="form-control" placeholder="Mínimo 8 caracteres"><span class="field-error" id="passErr"></span></div>
+      <div class="form-group"><label>Confirmar Contraseña *</label><input type="password" id="password_confirmation" class="form-control" placeholder="Repite la contraseña"><span class="field-error" id="confErr"></span></div>
+      <button type="submit" id="submitBtn" class="btn btn-primary btn-full btn-lg" style="margin-top:8px">Crear Cuenta Gratis</button>
+    </form>
+    <p style="text-align:center;margin-top:20px;color:var(--gray-500)">¿Ya tienes cuenta? <a href="login.html" style="font-weight:600">Iniciar sesión</a></p>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+if(Auth.isLoggedIn()) location.href='dashboard.html';
+
+document.getElementById('regForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  clearErrs();
+  const name=get('name'),company=get('company_name'),email=get('email'),pass=get('password'),conf=get('password_confirmation');
+  let ok=true;
+  if(!name){showErr('nameErr','El nombre es obligatorio.');ok=false;}
+  if(!company){showErr('companyErr','La empresa es obligatoria.');ok=false;}
+  if(!email){showErr('emailErr','El correo es obligatorio.');ok=false;}
+  if(!pass||pass.length<8){showErr('passErr','Mínimo 8 caracteres.');ok=false;}
+  if(pass!==conf){showErr('confErr','Las contraseñas no coinciden.');ok=false;}
+  if(!ok) return;
+  setBusy(true);
+  try{
+    const r=await API.post('/auth/register',{name,company_name:company,email,password:pass,password_confirmation:conf});
+    Auth.setSession(r.data.token,r.data.user);
+    location.href='dashboard.html';
+  }catch(e){
+    if(e.errors) Object.entries(e.errors).forEach(([k,v])=>{const m=k==='company_name'?'companyErr':k+'Err';showErr(m,v[0]);});
+    else{const b=document.getElementById('alertBox');b.className='alert alert-error';b.textContent='⚠️ '+(e.message||'Error al registrar.');b.style.display='flex';}
+  }finally{setBusy(false);}
+});
+function get(id){return document.getElementById(id).value.trim();}
+function setBusy(b){const btn=document.getElementById('submitBtn');btn.disabled=b;btn.textContent=b?'Creando cuenta...':'Crear Cuenta Gratis';}
+function showErr(id,m){const el=document.getElementById(id);if(el){el.textContent=m;el.classList.add('show');}}
+function clearErrs(){document.getElementById('alertBox').style.display='none';document.querySelectorAll('.form-control').forEach(i=>i.classList.remove('error'));document.querySelectorAll('.field-error').forEach(e=>{e.textContent='';e.classList.remove('show');});}
+</script>
+</body></html>

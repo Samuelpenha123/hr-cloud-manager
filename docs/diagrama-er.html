@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Diagrama Entidad-Relación — HR Cloud Manager</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #f0f4ff; padding: 30px; color: #1e293b; }
+
+  @media print {
+    body { background: white; padding: 10px; }
+    .no-print { display: none; }
+    .page { box-shadow: none; }
+  }
+
+  .page { background: white; max-width: 1100px; margin: 0 auto; border-radius: 12px;
+          box-shadow: 0 4px 24px rgba(0,0,0,.12); padding: 36px; }
+
+  h1 { text-align: center; font-size: 22px; font-weight: 800; color: #4F46E5; margin-bottom: 4px; }
+  .sub { text-align: center; color: #64748b; font-size: 13px; margin-bottom: 30px; }
+
+  /* ── Layout de tablas ── */
+  .er-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+  .er-grid .wide { grid-column: span 3; display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+
+  .table-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 12.5px;
+  }
+  .table-header {
+    background: #4F46E5;
+    color: white;
+    padding: 10px 14px;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .table-header span { font-size: 16px; }
+  .table-body { padding: 0; }
+  .field {
+    padding: 7px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .field:last-child { border-bottom: none; }
+  .field-name { font-weight: 600; color: #1e293b; flex: 1; }
+  .field-type { color: #64748b; font-size: 11px; white-space: nowrap; }
+  .badge {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  .pk  { background: #EEF2FF; color: #4F46E5; }
+  .fk  { background: #ECFDF5; color: #059669; }
+  .fk2 { background: #FFF7ED; color: #EA580C; }
+  .uk  { background: #FEF9C3; color: #92400E; }
+  .nn  { background: #F1F5F9; color: #64748b; }
+
+  /* ── Relaciones ── */
+  .rel-section { margin-top: 24px; }
+  .rel-section h2 { font-size: 15px; font-weight: 700; color: #4F46E5; margin-bottom: 12px;
+                    border-bottom: 2px solid #EEF2FF; padding-bottom: 6px; }
+  .rel-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+  .rel-item {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-left: 4px solid #4F46E5;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 12.5px;
+  }
+  .rel-item strong { color: #4F46E5; }
+  .rel-item .type-badge {
+    display: inline-block;
+    background: #4F46E5;
+    color: white;
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    margin-left: 6px;
+    font-weight: 600;
+  }
+
+  /* ── Leyenda ── */
+  .legend { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 20px;
+            padding: 12px 16px; background: #F8FAFC; border-radius: 8px; font-size: 12px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+
+  .print-btn {
+    display: block; margin: 0 auto 20px; padding: 10px 28px;
+    background: #4F46E5; color: white; border: none; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+  }
+  .print-btn:hover { background: #4338CA; }
+</style>
+</head>
+<body>
+<button class="print-btn no-print" onclick="window.print()">🖨️ Imprimir / Guardar como PDF</button>
+<div class="page">
+  <h1>Diagrama Entidad-Relación</h1>
+  <p class="sub">HR Cloud Manager — Sistema de Gestión de Recursos Humanos para PYMEs</p>
+
+  <!-- ── TABLAS ── -->
+  <div class="er-grid">
+
+    <!-- USERS -->
+    <div class="table-card">
+      <div class="table-header"><span>👤</span> USERS</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">name</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">email</span><span class="field-type">VARCHAR(255)</span><span class="badge uk">UK</span></div>
+        <div class="field"><span class="field-name">password</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">company_name</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">role</span><span class="field-type">ENUM</span><span class="badge nn">admin|manager|hr|employee</span></div>
+        <div class="field"><span class="field-name">created_by</span><span class="field-type">BIGINT</span><span class="badge fk">FK → users</span></div>
+        <div class="field"><span class="field-name">employee_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → employees</span></div>
+        <div class="field"><span class="field-name">is_active</span><span class="field-type">BOOLEAN</span></div>
+        <div class="field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+        <div class="field"><span class="field-name">updated_at</span><span class="field-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+    <!-- EMPLOYEES -->
+    <div class="table-card">
+      <div class="table-header" style="background:#059669"><span>👥</span> EMPLOYEES</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">user_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → users</span></div>
+        <div class="field"><span class="field-name">first_name</span><span class="field-type">VARCHAR(100)</span></div>
+        <div class="field"><span class="field-name">last_name</span><span class="field-type">VARCHAR(100)</span></div>
+        <div class="field"><span class="field-name">email</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">document_type</span><span class="field-type">ENUM</span><span class="badge nn">CI|RUT|DNI|PAS.</span></div>
+        <div class="field"><span class="field-name">document_number</span><span class="field-type">VARCHAR(20)</span></div>
+        <div class="field"><span class="field-name">hire_date</span><span class="field-type">DATE</span></div>
+        <div class="field"><span class="field-name">department</span><span class="field-type">VARCHAR(100)</span></div>
+        <div class="field"><span class="field-name">position</span><span class="field-type">VARCHAR(100)</span></div>
+        <div class="field"><span class="field-name">salary</span><span class="field-type">DECIMAL(12,2)</span></div>
+        <div class="field"><span class="field-name">status</span><span class="field-type">ENUM</span><span class="badge nn">active|inactive|suspended</span></div>
+        <div class="field"><span class="field-name">deleted_at</span><span class="field-type">TIMESTAMP</span><span class="badge nn">Soft Delete</span></div>
+      </div>
+    </div>
+
+    <!-- ATTENDANCES -->
+    <div class="table-card">
+      <div class="table-header" style="background:#0891B2"><span>📅</span> ATTENDANCES</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">employee_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → employees</span></div>
+        <div class="field"><span class="field-name">date</span><span class="field-type">DATE</span><span class="badge uk">UK (emp+date)</span></div>
+        <div class="field"><span class="field-name">check_in</span><span class="field-type">DATETIME</span></div>
+        <div class="field"><span class="field-name">check_out</span><span class="field-type">DATETIME</span></div>
+        <div class="field"><span class="field-name">status</span><span class="field-type">ENUM</span><span class="badge nn">present|absent|late…</span></div>
+        <div class="field"><span class="field-name">late_minutes</span><span class="field-type">INT</span></div>
+        <div class="field"><span class="field-name">notes</span><span class="field-type">TEXT</span></div>
+        <div class="field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+    <!-- VACATION_REQUESTS -->
+    <div class="table-card">
+      <div class="table-header" style="background:#D97706"><span>🏖️</span> VACATION_REQUESTS</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">employee_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → employees</span></div>
+        <div class="field"><span class="field-name">start_date</span><span class="field-type">DATE</span></div>
+        <div class="field"><span class="field-name">end_date</span><span class="field-type">DATE</span></div>
+        <div class="field"><span class="field-name">days_requested</span><span class="field-type">INT</span></div>
+        <div class="field"><span class="field-name">reason</span><span class="field-type">TEXT</span></div>
+        <div class="field"><span class="field-name">status</span><span class="field-type">ENUM</span><span class="badge nn">pending|approved|rejected</span></div>
+        <div class="field"><span class="field-name">approved_by</span><span class="field-type">BIGINT</span><span class="badge fk">FK → users</span></div>
+        <div class="field"><span class="field-name">approved_at</span><span class="field-type">DATETIME</span></div>
+        <div class="field"><span class="field-name">rejection_reason</span><span class="field-type">TEXT</span></div>
+        <div class="field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="table-card">
+      <div class="table-header" style="background:#7C3AED"><span>📁</span> DOCUMENTS</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">employee_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → employees</span></div>
+        <div class="field"><span class="field-name">user_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → users</span></div>
+        <div class="field"><span class="field-name">title</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">type</span><span class="field-type">ENUM</span><span class="badge nn">contract|cert|payroll…</span></div>
+        <div class="field"><span class="field-name">file_path</span><span class="field-type">VARCHAR(500)</span></div>
+        <div class="field"><span class="field-name">file_name</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">file_size</span><span class="field-type">INT</span></div>
+        <div class="field"><span class="field-name">expiry_date</span><span class="field-type">DATE</span></div>
+        <div class="field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+    <!-- NOTIFICATIONS -->
+    <div class="table-card">
+      <div class="table-header" style="background:#DC2626"><span>🔔</span> NOTIFICATIONS</div>
+      <div class="table-body">
+        <div class="field"><span class="field-name">id</span><span class="field-type">BIGINT</span><span class="badge pk">PK</span></div>
+        <div class="field"><span class="field-name">user_id</span><span class="field-type">BIGINT</span><span class="badge fk">FK → users</span></div>
+        <div class="field"><span class="field-name">title</span><span class="field-type">VARCHAR(255)</span></div>
+        <div class="field"><span class="field-name">message</span><span class="field-type">TEXT</span></div>
+        <div class="field"><span class="field-name">type</span><span class="field-type">ENUM</span><span class="badge nn">info|success|warning|error</span></div>
+        <div class="field"><span class="field-name">is_read</span><span class="field-type">BOOLEAN</span></div>
+        <div class="field"><span class="field-name">related_id</span><span class="field-type">BIGINT</span></div>
+        <div class="field"><span class="field-name">related_type</span><span class="field-type">VARCHAR(50)</span></div>
+        <div class="field"><span class="field-name">created_at</span><span class="field-type">TIMESTAMP</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── RELACIONES ── -->
+  <div class="rel-section">
+    <h2>🔗 Relaciones entre entidades</h2>
+    <div class="rel-grid">
+      <div class="rel-item">
+        <strong>users</strong> → <strong>employees</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un usuario (admin) gestiona muchos empleados.<br>
+        <small style="color:#64748b">employees.user_id = users.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>users</strong> → <strong>users</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un admin puede crear múltiples sub-usuarios.<br>
+        <small style="color:#64748b">users.created_by = users.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>users</strong> → <strong>employees</strong>
+        <span class="type-badge">1 : 1</span><br>
+        Un usuario empleado está vinculado a su registro HR.<br>
+        <small style="color:#64748b">users.employee_id = employees.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>employees</strong> → <strong>attendances</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un empleado tiene muchos registros de asistencia.<br>
+        <small style="color:#64748b">attendances.employee_id = employees.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>employees</strong> → <strong>vacation_requests</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un empleado puede tener muchas solicitudes de vacaciones.<br>
+        <small style="color:#64748b">vacation_requests.employee_id = employees.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>employees</strong> → <strong>documents</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un empleado puede tener muchos documentos adjuntos.<br>
+        <small style="color:#64748b">documents.employee_id = employees.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>users</strong> → <strong>vacation_requests</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un usuario (admin/hr) aprueba/rechaza solicitudes.<br>
+        <small style="color:#64748b">vacation_requests.approved_by = users.id</small>
+      </div>
+      <div class="rel-item">
+        <strong>users</strong> → <strong>notifications</strong>
+        <span class="type-badge">1 : N</span><br>
+        Un usuario recibe muchas notificaciones del sistema.<br>
+        <small style="color:#64748b">notifications.user_id = users.id</small>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── LEYENDA ── -->
+  <div class="legend">
+    <div class="legend-item"><span class="badge pk">PK</span> Clave primaria</div>
+    <div class="legend-item"><span class="badge fk">FK</span> Clave foránea</div>
+    <div class="legend-item"><span class="badge uk">UK</span> Clave única</div>
+    <div class="legend-item"><span class="badge nn">ENUM</span> Valores predefinidos</div>
+    <div style="margin-left:auto;font-size:11px;color:#94a3b8">HR Cloud Manager — Base de datos: hr_cloud_manager | Motor: MariaDB 10.4</div>
+  </div>
+</div>
+</body>
+</html>

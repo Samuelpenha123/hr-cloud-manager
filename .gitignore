@@ -1,0 +1,17 @@
+# Backend
+backend/vendor/
+backend/.env
+backend/storage/app/private/
+backend/storage/logs/*.log
+backend/bootstrap/cache/*.php
+backend/storage/framework/cache/data/
+backend/storage/framework/views/
+
+# Frontend
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

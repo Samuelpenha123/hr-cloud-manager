@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HR Cloud Manager - Gestión de RRHH para PYMES</title>
+<link rel="stylesheet" href="css/landing.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <div class="nav-brand"><span class="logo-icon">☁️</span><span class="brand-name">HR Cloud <span class="accent">Manager</span></span></div>
+    <div class="nav-links" id="navLinks">
+      <a href="#features">Funcionalidades</a>
+      <a href="#benefits">Beneficios</a>
+      <a href="#pricing">Precios</a>
+    </div>
+    <div class="nav-actions">
+      <a href="login.html"    class="btn btn-outline">Iniciar Sesión</a>
+      <a href="register.html" class="btn btn-primary">Registrarse Gratis</a>
+    </div>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <div class="badge">🚀 Plataforma SaaS #1 para PYMES</div>
+      <h1>Gestiona tu equipo<br><span class="gradient-text">desde cualquier lugar</span></h1>
+      <p class="hero-desc">HR Cloud Manager digitaliza todos los procesos de recursos humanos: empleados, asistencia, vacaciones y documentos en un solo lugar.</p>
+      <div class="hero-btns">
+        <a href="register.html" class="btn btn-primary btn-lg">Comenzar Gratis →</a>
+        <a href="login.html"    class="btn btn-ghost btn-lg">Ya tengo cuenta</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hstat"><strong>+500</strong><span>Empresas</span></div>
+        <div class="hdiv"></div>
+        <div class="hstat"><strong>+10,000</strong><span>Empleados</span></div>
+        <div class="hdiv"></div>
+        <div class="hstat"><strong>99.9%</strong><span>Uptime</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="mockup">
+        <div class="mock-bar"><div class="dots"><span></span><span></span><span></span></div><span style="color:#64748b;font-size:12px">HR Cloud Manager</span></div>
+        <div class="mock-body">
+          <div class="mock-side">
+            <div class="ms active">📊 Dashboard</div>
+            <div class="ms">👥 Empleados</div>
+            <div class="ms">📅 Asistencia</div>
+            <div class="ms">🏖️ Vacaciones</div>
+            <div class="ms">📁 Documentos</div>
+          </div>
+          <div class="mock-main">
+            <div class="mock-cards">
+              <div class="mc blue"><div class="mc-n">47</div><div class="mc-l">Empleados</div></div>
+              <div class="mc green"><div class="mc-n">42</div><div class="mc-l">Presentes</div></div>
+              <div class="mc amber"><div class="mc-n">3</div><div class="mc-l">Pendientes</div></div>
+            </div>
+            <div class="mock-chart">
+              <div class="bar" style="height:55%"></div><div class="bar" style="height:75%"></div>
+              <div class="bar" style="height:65%"></div><div class="bar" style="height:90%"></div>
+              <div class="bar" style="height:60%"></div><div class="bar" style="height:80%"></div>
+              <div class="bar" style="height:70%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="section-hd"><h2>Todo lo que necesita tu PYME</h2><p>Módulos completos para gestionar cada aspecto de tus recursos humanos</p></div>
+    <div class="feat-grid">
+      <div class="feat-card"><div class="feat-icon">👥</div><h3>Gestión de Empleados</h3><p>Registro completo del personal con historial, documentos y datos de contacto de emergencia.</p></div>
+      <div class="feat-card featured"><div class="feat-badge">⭐ Popular</div><div class="feat-icon">📅</div><h3>Control de Asistencia</h3><p>Registra entradas y salidas, detecta tardanzas automáticamente y genera reportes mensuales.</p></div>
+      <div class="feat-card"><div class="feat-icon">🏖️</div><h3>Gestión de Vacaciones</h3><p>Flujo completo de solicitud → aprobación/rechazo con calendario de ausencias del equipo.</p></div>
+      <div class="feat-card"><div class="feat-icon">📁</div><h3>Gestión Documental</h3><p>Almacena contratos, certificados y documentos con alertas automáticas de vencimiento.</p></div>
+      <div class="feat-card"><div class="feat-icon">📊</div><h3>Reportes e Indicadores</h3><p>Dashboard con métricas en tiempo real: asistencia, ausentismo, productividad por departamento.</p></div>
+      <div class="feat-card"><div class="feat-icon">🔔</div><h3>Notificaciones</h3><p>Alertas automáticas de vencimientos, aprobaciones pendientes y eventos del personal.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits" id="benefits">
+  <div class="container benefits-grid">
+    <div class="ben-text">
+      <h2>¿Por qué elegir HR Cloud Manager?</h2>
+      <div class="ben-item"><span class="ben-icon">⚡</span><div><h4>Implementación en 10 minutos</h4><p>Sin instalaciones ni configuraciones complejas. Regístrate y comienza hoy.</p></div></div>
+      <div class="ben-item"><span class="ben-icon">🔒</span><div><h4>Seguridad con JWT</h4><p>Autenticación basada en tokens JWT. Cada empresa tiene sus datos completamente aislados.</p></div></div>
+      <div class="ben-item"><span class="ben-icon">💰</span><div><h4>Precios para PYMES</h4><p>Planes accesibles diseñados para el presupuesto de empresas latinoamericanas.</p></div></div>
+      <div class="ben-item"><span class="ben-icon">📱</span><div><h4>100% Responsive</h4><p>Accede desde cualquier dispositivo. Funciona en computadora, tablet y smartphone.</p></div></div>
+    </div>
+    <div class="ben-cards">
+      <div class="ben-card"><span class="bc-icon">📉</span><div><strong>-80%</strong><span>Errores administrativos</span></div></div>
+      <div class="ben-card"><span class="bc-icon">⏱️</span><div><strong>5x</strong><span>Más rápido</span></div></div>
+      <div class="ben-card"><span class="bc-icon">😊</span><div><strong>98%</strong><span>Satisfacción cliente</span></div></div>
+      <div class="ben-card"><span class="bc-icon">🏢</span><div><strong>SaaS</strong><span>Multiempresa</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="pricing">
+  <div class="container">
+    <div class="section-hd"><h2>Planes simples y transparentes</h2><p>Sin costos ocultos. Cancela cuando quieras.</p></div>
+    <div class="price-grid">
+      <div class="price-card"><h3>Básico</h3><div class="price"><span>$</span>29<small>/mes</small></div><ul><li>✓ Hasta 20 empleados</li><li>✓ Control de asistencia</li><li>✓ Gestión de vacaciones</li><li>✓ Soporte por email</li></ul><a href="register.html" class="btn btn-outline btn-full">Empezar</a></div>
+      <div class="price-card featured"><div class="price-badge">Más popular</div><h3>Profesional</h3><div class="price"><span>$</span>79<small>/mes</small></div><ul><li>✓ Hasta 100 empleados</li><li>✓ Todos los módulos</li><li>✓ Gestión documental</li><li>✓ Reportes avanzados</li><li>✓ Soporte prioritario</li></ul><a href="register.html" class="btn btn-primary btn-full">Empezar Gratis</a></div>
+      <div class="price-card"><h3>Empresarial</h3><div class="price"><span>$</span>199<small>/mes</small></div><ul><li>✓ Empleados ilimitados</li><li>✓ Múltiples sucursales</li><li>✓ API personalizada</li><li>✓ Soporte 24/7</li></ul><a href="register.html" class="btn btn-outline btn-full">Contactar</a></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <div class="container cta-inner">
+    <h2>¿Listo para digitalizar tu RRHH?</h2>
+    <p>Únete a cientos de empresas que ya simplificaron su gestión de recursos humanos</p>
+    <div class="cta-btns">
+      <a href="register.html" class="btn btn-white btn-lg">Crear cuenta gratis</a>
+      <a href="login.html"    class="btn btn-ghost-white btn-lg">Ya tengo cuenta</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container footer-inner">
+    <div class="footer-brand"><span>☁️</span><span>HR Cloud Manager</span></div>
+    <p>© 2024 HR Cloud Manager · Sistema SaaS de RRHH para PYMES · Todos los derechos reservados</p>
+  </div>
+</footer>
+
+<script>
+function toggleMenu(){
+  document.getElementById('navLinks').classList.toggle('open');
+}
+window.addEventListener('scroll',function(){
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 10);
+});
+</script>
+</body>
+</html>

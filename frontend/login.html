@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Iniciar Sesión - HR Cloud Manager</title>
+<link rel="stylesheet" href="css/app.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+<div class="auth-page">
+  <div class="auth-card">
+    <div class="auth-logo"><span>☁️</span><span class="brand-name">HR Cloud <span class="brand-accent">Manager</span></span></div>
+    <div class="auth-title"><h1>Bienvenido de vuelta</h1><p>Ingresa tus credenciales para continuar</p></div>
+    <div id="alertBox" class="alert alert-error" style="display:none"></div>
+    <form id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" class="form-control" placeholder="admin@empresa.com" autocomplete="email">
+        <span class="field-error" id="emailErr"></span>
+      </div>
+      <div class="form-group">
+        <label for="password">Contraseña</label>
+        <input type="password" id="password" class="form-control" placeholder="••••••••" autocomplete="current-password">
+        <span class="field-error" id="passErr"></span>
+      </div>
+      <button type="submit" id="submitBtn" class="btn btn-primary btn-full btn-lg" style="margin-top:8px">
+        <span id="btnTxt">Iniciar Sesión</span>
+      </button>
+    </form>
+    <p style="text-align:center;margin-top:20px;color:var(--gray-500)">¿No tienes cuenta? <a href="register.html" style="font-weight:600">Regístrate gratis</a></p>
+    <div style="margin-top:16px;padding:12px;background:var(--gray-50);border-radius:8px;font-size:13px;color:var(--gray-600)">
+      <strong>Demo:</strong> admin@hrcloud.com / password
+    </div>
+  </div>
+</div>
+<script src="js/api.js"></script>
+<script src="js/auth.js"></script>
+<script>
+if(Auth.isLoggedIn()) location.href='dashboard.html';
+
+document.getElementById('loginForm').addEventListener('submit',async function(e){
+  e.preventDefault();
+  clearErrs();
+  const email=document.getElementById('email').value.trim();
+  const pass=document.getElementById('password').value;
+  let ok=true;
+  if(!email){showErr('email','El correo es obligatorio.');ok=false;}
+  if(!pass){showErr('pass','La contraseña es obligatoria.');ok=false;}
+  if(!ok) return;
+  setBusy(true);
+  try{
+    const r=await API.post('/auth/login',{email,password:pass});
+    Auth.setSession(r.data.token,r.data.user);
+    location.href='dashboard.html';
+  }catch(e){
+    const box=document.getElementById('alertBox');
+    box.textContent='⚠️ '+(e.message||'Error al iniciar sesión.');
+    box.style.display='flex';
+  }finally{setBusy(false);}
+});
+function setBusy(b){
+  const btn=document.getElementById('submitBtn');
+  btn.disabled=b;
+  document.getElementById('btnTxt').textContent=b?'Ingresando...':'Iniciar Sesión';
+}
+function showErr(f,m){
+  const inp=document.getElementById(f==='pass'?'password':f);
+  if(inp)inp.classList.add('error');
+  const el=document.getElementById(f==='pass'?'passErr':'emailErr');
+  if(el){el.textContent=m;el.classList.add('show');}
+}
+function clearErrs(){
+  document.getElementById('alertBox').style.display='none';
+  document.querySelectorAll('.form-control').forEach(i=>i.classList.remove('error'));
+  document.querySelectorAll('.field-error').forEach(e=>{e.textContent='';e.classList.remove('show');});
+}
+</script>
+</body></html>
